@@ -1,0 +1,551 @@
+/* ============================================
+   ANYA AI — Premium Dark Theme
+   ============================================ */
+
+/* ---------- CSS Custom Properties ---------- */
+:root {
+    --bg-primary: #0a0e1a;
+    --bg-secondary: #0f1525;
+    --bg-tertiary: #151c30;
+    --bg-surface: #1a2238;
+    --bg-surface-hover: #1f2a45;
+    --bg-glass: rgba(20, 30, 55, 0.65);
+    --bg-glass-hover: rgba(30, 42, 72, 0.75);
+
+    --border-subtle: rgba(255, 255, 255, 0.06);
+    --border-medium: rgba(255, 255, 255, 0.1);
+    --border-accent: rgba(99, 130, 255, 0.25);
+
+    --text-primary: #e8ecf4;
+    --text-secondary: #8892a8;
+    --text-tertiary: #5c6478;
+    --text-inverse: #0a0e1a;
+
+    /* Accent system — overridden by color themes */
+    --accent-blue: #6382ff;
+    --accent-purple: #a76bff;
+    --accent-teal: #3dd6c8;
+    --accent-pink: #f471b5;
+    --accent-primary: #a76bff;
+
+    --gradient-accent: linear-gradient(135deg, #6382ff, #a76bff);
+    --gradient-user: linear-gradient(135deg, #4f6aff, #7b5cff);
+    --gradient-ai: linear-gradient(135deg, #1a2845, #1e2f50);
+    --gradient-surface: linear-gradient(180deg, var(--bg-secondary), var(--bg-primary));
+
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
+    --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.3);
+    --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.4);
+    --shadow-glow: 0 0 20px rgba(99, 130, 255, 0.15);
+
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
+    --radius-full: 9999px;
+
+    --transition-fast: 0.15s ease;
+    --transition-normal: 0.25s ease;
+    --transition-slow: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+    --sidebar-width: 270px;
+    --sidebar-collapsed: 65px;
+    --right-sidebar-width: 320px;
+    --right-sidebar-collapsed: 65px;
+}
+
+/* ============================================
+   ACCENT GRADIENT THEMES (3rd category)
+   Each is a full gradient, not a single colour
+   ============================================ */
+
+/* DEFAULT — Blue → Purple → Pink (original Anya) */
+body.accent-default {
+    --accent-primary: #a76bff;
+    --gradient-accent: linear-gradient(135deg, #6382ff 0%, #a76bff 50%, #f471b5 100%);
+    --gradient-user: linear-gradient(135deg, #4f6aff 0%, #7b5cff 60%, #c85fdd 100%);
+    --shadow-glow: 0 0 24px rgba(167, 107, 255, 0.25);
+    --border-accent: rgba(167, 107, 255, 0.3);
+}
+
+/* GREENISH — Teal → Emerald → Lime */
+body.accent-green {
+    --accent-primary: #34d399;
+    --gradient-accent: linear-gradient(135deg, #0d9488 0%, #34d399 50%, #a3e635 100%);
+    --gradient-user: linear-gradient(135deg, #0f766e 0%, #22c55e 60%, #84cc16 100%);
+    --shadow-glow: 0 0 24px rgba(52, 211, 153, 0.25);
+    --border-accent: rgba(52, 211, 153, 0.3);
+}
+
+/* REDDISH — Crimson → Orange → Amber */
+body.accent-red {
+    --accent-primary: #f87171;
+    --gradient-accent: linear-gradient(135deg, #dc2626 0%, #f97316 50%, #fbbf24 100%);
+    --gradient-user: linear-gradient(135deg, #b91c1c 0%, #ea580c 60%, #d97706 100%);
+    --shadow-glow: 0 0 24px rgba(248, 113, 113, 0.25);
+    --border-accent: rgba(248, 113, 113, 0.3);
+}
+
+/* BLUISH — Indigo → Sky → Cyan */
+body.accent-blue {
+    --accent-primary: #60a5fa;
+    --gradient-accent: linear-gradient(135deg, #4338ca 0%, #3b82f6 50%, #06b6d4 100%);
+    --gradient-user: linear-gradient(135deg, #3730a3 0%, #2563eb 60%, #0891b2 100%);
+    --shadow-glow: 0 0 24px rgba(96, 165, 250, 0.25);
+    --border-accent: rgba(96, 165, 250, 0.3);
+}
+
+/* BLACK & WHITE — Dark Charcoal → Mid Grey → Silver */
+body.accent-mono {
+    --accent-primary: #94a3b8;
+    --gradient-accent: linear-gradient(135deg, #1e293b 0%, #64748b 50%, #cbd5e1 100%);
+    --gradient-user: linear-gradient(135deg, #0f172a 0%, #475569 60%, #94a3b8 100%);
+    --shadow-glow: 0 0 24px rgba(148, 163, 184, 0.2);
+    --border-accent: rgba(148, 163, 184, 0.25);
+}
+
+/* MULTICOLOUR — Full Rainbow */
+body.accent-rainbow {
+    --accent-primary: #f472b6;
+    --gradient-accent: linear-gradient(135deg, #f87171 0%, #fb923c 16%, #facc15 33%, #4ade80 50%, #60a5fa 66%, #a78bfa 83%, #f472b6 100%);
+    --gradient-user: linear-gradient(135deg, #ef4444 0%, #f97316 20%, #eab308 40%, #22c55e 60%, #3b82f6 80%, #8b5cf6 100%);
+    --shadow-glow: 0 0 24px rgba(244, 114, 182, 0.2);
+    --border-accent: rgba(250, 200, 80, 0.3);
+}
+
+/* YELLOW — Gold → Amber → Warm Yellow */
+body.accent-yellow {
+    --accent-primary: #fbbf24;
+    --gradient-accent: linear-gradient(135deg, #92400e 0%, #d97706 40%, #fbbf24 70%, #fef08a 100%);
+    --gradient-user: linear-gradient(135deg, #78350f 0%, #b45309 50%, #f59e0b 100%);
+    --shadow-glow: 0 0 24px rgba(251, 191, 36, 0.3);
+    --border-accent: rgba(251, 191, 36, 0.35);
+}
+
+/* Swatch gradient backgrounds — used in the picker */
+.swatch-default {
+    background: linear-gradient(135deg, #6382ff 0%, #a76bff 50%, #f471b5 100%);
+}
+
+.swatch-green {
+    background: linear-gradient(135deg, #0d9488 0%, #34d399 50%, #a3e635 100%);
+}
+
+.swatch-red {
+    background: linear-gradient(135deg, #dc2626 0%, #f97316 50%, #fbbf24 100%);
+}
+
+.swatch-blue {
+    background: linear-gradient(135deg, #4338ca 0%, #3b82f6 50%, #06b6d4 100%);
+}
+
+.swatch-mono {
+    background: linear-gradient(135deg, #1e293b 0%, #64748b 50%, #cbd5e1 100%);
+}
+
+.swatch-rainbow {
+    background: linear-gradient(135deg, #f87171 0%, #fb923c 16%, #facc15 33%, #4ade80 50%, #60a5fa 66%, #a78bfa 83%, #f472b6 100%);
+}
+
+.swatch-yellow {
+    background: linear-gradient(135deg, #92400e 0%, #d97706 40%, #fbbf24 70%, #fef08a 100%);
+}
+
+/* ============================================
+   STYLE THEMES (2nd category)
+   ============================================ */
+
+/* --- MINIMALIST --- */
+body.style-minimalist {
+    --radius-sm: 2px;
+    --radius-md: 2px;
+    --radius-lg: 2px;
+    --radius-xl: 2px;
+    --radius-full: 2px;
+    --shadow-sm: none;
+    --shadow-md: none;
+    --shadow-lg: none;
+    --shadow-glow: none;
+    --font-sans: 'DM Sans', 'Helvetica Neue', Helvetica, sans-serif;
+    --bg-glass: var(--bg-secondary);
+    /* Muted version of the accent so everything feels calmer */
+    --gradient-accent: var(--accent-primary);
+    --gradient-user: var(--accent-primary);
+}
+
+body.style-minimalist .tool-window,
+body.style-minimalist .chat-input,
+body.style-minimalist .quick-action-btn,
+body.style-minimalist .session-item,
+body.style-minimalist .modal-box {
+    border-radius: 2px !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+}
+
+body.style-minimalist .user,
+body.style-minimalist .ai {
+    border-radius: 2px;
+    box-shadow: none;
+    background: transparent !important;
+}
+
+/* User messages: right-aligned text, simple underline border */
+body.style-minimalist .user .content {
+    background: none !important;
+    color: var(--text-primary) !important;
+    border-right: 2px solid var(--accent-primary) !important;
+    padding-right: 8px !important;
+    border-radius: 0 !important;
+}
+
+/* AI messages: left-aligned, subtle left border */
+body.style-minimalist .ai .content {
+    background: none !important;
+    color: var(--text-primary) !important;
+    border-left: 2px solid var(--text-tertiary) !important;
+    padding-left: 8px !important;
+    border-radius: 0 !important;
+}
+
+body.style-minimalist .send-btn,
+body.style-minimalist .new-chat-btn {
+    border-radius: 2px;
+    box-shadow: none !important;
+}
+
+body.style-minimalist .welcome-icon {
+    animation: none !important;
+    background: none !important;
+    -webkit-text-fill-color: var(--text-secondary) !important;
+    font-size: 36px !important;
+    filter: none !important;
+}
+
+body.style-minimalist .typing-dots span {
+    animation: none !important;
+    opacity: 0.5;
+}
+
+body.style-minimalist .typing-dots span:nth-child(2) {
+    opacity: 0.7;
+}
+
+body.style-minimalist .typing-dots span:nth-child(3) {
+    opacity: 0.9;
+}
+
+/* Remove gradient text in minimalist */
+body.style-minimalist .gradient-text,
+body.style-minimalist .brand-text {
+    background: none !important;
+    -webkit-text-fill-color: var(--text-primary) !important;
+    font-weight: 600 !important;
+}
+
+/* Flat header in minimalist */
+body.style-minimalist .chat-header,
+body.style-minimalist .left-sidebar,
+body.style-minimalist .right-sidebar {
+    backdrop-filter: none !important;
+    background: var(--bg-primary) !important;
+    border-right-color: var(--border-medium) !important;
+}
+
+body.style-minimalist .chat-input:focus-within {
+    box-shadow: 0 0 0 1px var(--accent-primary) !important;
+}
+
+/* Remove button gradients */
+body.style-minimalist .new-chat-btn,
+body.style-minimalist .send-btn {
+    background: var(--accent-primary) !important;
+}
+
+/* --- MODERN / GLASSMORPHIC --- */
+body.style-modern {
+    --bg-glass: rgba(15, 23, 42, 0.45);
+    --bg-secondary: rgba(10, 15, 30, 0.8);
+    --bg-surface: rgba(25, 35, 60, 0.7);
+    --bg-surface-hover: rgba(35, 50, 80, 0.8);
+    --shadow-glow: 0 0 40px rgba(var(--glow-rgb, 99, 130, 255), 0.25);
+    --font-sans: 'Plus Jakarta Sans', 'SF Pro Display', -apple-system, sans-serif;
+}
+
+body.style-modern .app-container {
+    background: radial-gradient(ellipse at 20% 50%, rgba(99, 130, 255, 0.08) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 20%, rgba(167, 107, 255, 0.06) 0%, transparent 60%),
+        var(--bg-primary);
+}
+
+body.style-modern .left-sidebar,
+body.style-modern .right-sidebar,
+body.style-modern .chat-header {
+    backdrop-filter: blur(30px) saturate(180%);
+    -webkit-backdrop-filter: blur(30px) saturate(180%);
+}
+
+body.style-modern .tool-window,
+body.style-modern .modal-box {
+    backdrop-filter: blur(20px) saturate(150%);
+}
+
+body.style-modern .user {
+    box-shadow: 0 4px 24px rgba(99, 130, 255, 0.25), var(--shadow-sm);
+}
+
+body.style-modern .chat-input:focus-within {
+    box-shadow: 0 0 0 3px rgba(99, 130, 255, 0.15), 0 8px 30px rgba(0, 0, 0, 0.3);
+}
+
+body.style-modern .send-btn:hover {
+    box-shadow: 0 0 30px rgba(99, 130, 255, 0.5);
+    transform: scale(1.1);
+}
+
+/* Cursor glow effect for modern */
+body.style-modern #cursor-glow {
+    display: block !important;
+}
+
+/* --- ANCIENT / TERMINAL --- */
+body.style-ancient {
+    --bg-primary: #000000;
+    --bg-secondary: #020802;
+    --bg-tertiary: #031003;
+    --bg-surface: #041504;
+    --bg-surface-hover: #062006;
+    --bg-glass: rgba(0, 30, 0, 0.85);
+    --text-primary: #33ff33;
+    --text-secondary: #22bb22;
+    --text-tertiary: #116611;
+    --border-subtle: rgba(51, 255, 51, 0.1);
+    --border-medium: rgba(51, 255, 51, 0.2);
+    --border-accent: rgba(51, 255, 51, 0.4);
+    --font-sans: 'Courier New', Courier, monospace;
+    --radius-sm: 0px;
+    --radius-md: 0px;
+    --radius-lg: 0px;
+    --radius-xl: 0px;
+    --radius-full: 0px;
+    --shadow-glow: 0 0 15px rgba(51, 255, 51, 0.3);
+    --shadow-sm: 0 0 8px rgba(51, 255, 51, 0.1);
+}
+
+body.style-ancient * {
+    font-family: 'Courier New', Courier, monospace !important;
+}
+
+body.style-ancient .gradient-text,
+body.style-ancient .brand-text {
+    background: none !important;
+    -webkit-text-fill-color: #33ff33 !important;
+    color: #33ff33 !important;
+    text-shadow: 0 0 10px #33ff33;
+}
+
+body.style-ancient .welcome-icon {
+    background: none !important;
+    -webkit-text-fill-color: #33ff33 !important;
+    text-shadow: 0 0 20px #33ff33;
+}
+
+body.style-ancient .user {
+    background: #001a00;
+    border: 1px solid #33ff33;
+    color: #33ff33;
+    box-shadow: 0 0 10px rgba(51, 255, 51, 0.2);
+}
+
+body.style-ancient .ai {
+    background: #000800;
+    border: 1px solid rgba(51, 255, 51, 0.3);
+    color: #33ff33;
+}
+
+body.style-ancient .new-chat-btn,
+body.style-ancient .send-btn,
+body.style-ancient .alarm-set-btn,
+body.style-ancient .ns-test-btn,
+body.style-ancient .settings-btn-primary {
+    background: transparent;
+    border: 1px solid #33ff33;
+    color: #33ff33;
+    box-shadow: 0 0 8px rgba(51, 255, 51, 0.15);
+}
+
+body.style-ancient .chat-input {
+    border-color: rgba(51, 255, 51, 0.3);
+    background: #000800;
+}
+
+body.style-ancient .chat-input textarea {
+    color: #33ff33;
+}
+
+body.style-ancient .chat-input textarea::placeholder {
+    color: rgba(51, 255, 51, 0.35);
+}
+
+body.style-ancient .app-container::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(transparent,
+            transparent 2px,
+            rgba(0, 0, 0, 0.03) 2px,
+            rgba(0, 0, 0, 0.03) 4px);
+    pointer-events: none;
+    z-index: 9998;
+}
+
+body.style-ancient .typing-dots span {
+    background: #33ff33;
+}
+
+body.style-ancient .status-dot {
+    background: #33ff33;
+    box-shadow: 0 0 8px rgba(51, 255, 51, 0.6);
+}
+
+body.style-ancient .header-avatar,
+body.style-ancient .typing-avatar {
+    background: transparent;
+    border: 1px solid #33ff33;
+    color: #33ff33;
+}
+
+body.style-ancient .session-item.active {
+    box-shadow: inset 3px 0 0 #33ff33;
+    background: #001500;
+}
+
+/* Terminal-style message prefixes */
+body.style-ancient .user::before {
+    content: '> ';
+    color: #33ff33;
+    font-family: 'Courier New', monospace;
+    opacity: 0.5;
+}
+
+body.style-ancient .ai::before {
+    content: '< ';
+    color: #22bb22;
+    font-family: 'Courier New', monospace;
+    opacity: 0.4;
+}
+
+/* Sharper send button hover in terminal */
+body.style-ancient .send-btn:hover,
+body.style-ancient .new-chat-btn:hover {
+    box-shadow: 0 0 18px rgba(51, 255, 51, 0.55) !important;
+    background: rgba(51, 255, 51, 0.1) !important;
+}
+
+/* Terminal input focus glow */
+body.style-ancient .chat-input:focus-within {
+    border-color: #33ff33 !important;
+    box-shadow: 0 0 0 1px #33ff33, 0 0 12px rgba(51, 255, 51, 0.25) !important;
+}
+
+/* ============================================
+   CURSOR GLOW (modern style only)
+   ============================================ */
+#cursor-glow {
+    display: none;
+    position: fixed;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(99, 130, 255, 0.08) 0%, transparent 70%);
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    z-index: 9997;
+    transition: opacity 0.3s;
+}
+
+/* ---------- Reset & Base ---------- */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 15px;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-sans);
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.6;
+    overflow: hidden;
+    height: 100vh;
+}
+
+/* ---------- Scrollbar ---------- */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.18);
+}
+
+/* ---------- App Container ---------- */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+}
+
+
+/* ============================================
+   SCROLLBARS
+   ============================================ */
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.22);
+}
+
+* {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.12) transparent;
+}
+
+body.light-mode ::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.12);
+}
+
+body.light-mode * {
+    scrollbar-color: rgba(0, 0, 0, 0.14) transparent;
+}

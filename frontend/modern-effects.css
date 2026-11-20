@@ -1,0 +1,979 @@
+/* ============================================
+   ANYA AI — Modern Theme Visual Effects v3
+   ============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600;800&family=Rajdhani:wght@300;500;700&family=Audiowide&family=Syncopate:wght@400;700&display=swap');
+
+/* ============================================
+   CANVAS BACKGROUND
+   ============================================ */
+#modern-bg-canvas {
+    display: none;
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 1;
+}
+
+body.style-modern #modern-bg-canvas {
+    display: block;
+}
+
+body.style-modern .app-container {
+    position: relative;
+    z-index: 1;
+    background: transparent !important;
+}
+
+body.style-modern .left-sidebar,
+body.style-modern .right-sidebar,
+body.style-modern .chat-area {
+    background: rgba(5, 8, 22, 0.72) !important;
+    backdrop-filter: blur(18px) !important;
+}
+
+body.style-modern .chat-header {
+    background: rgba(5, 8, 22, 0.82) !important;
+}
+
+body.style-modern #cursor-glow {
+    display: none !important;
+}
+
+/* ============================================
+   CUSTOM CURSORS — THEME-SCOPED
+   Default / Minimalist : native OS cursor (no override)
+   Ancient / Terminal   : native cursor + green caret
+   Modern / Futuristic  : custom futuristic cursors
+   ============================================ */
+
+/* Ancient/Terminal: blinking green caret for inputs */
+body.style-ancient input,
+body.style-ancient textarea,
+body.style-ancient [contenteditable] {
+    caret-color: #33ff33 !important;
+}
+
+/* Modern: futuristic white-arrow cursor for non-interactive areas */
+body.style-modern *:not(input):not(textarea):not(button):not(a):not([onclick]):not([contenteditable]):not(.session-item):not(.quick-action-btn):not(.footer-btn):not(.icon-btn):not(.send-btn):not(.new-chat-btn):not(.mic-btn):not(.color-swatch):not(.theme-card):not(.mode-card):not(.settings-nav-item):not(.minimized-icon):not(.delete-btn) {
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='22' viewBox='0 0 20 22'%3E%3Cpolygon points='2,1 2,17 7,13 11,20 13,19 9,12 16,9' fill='white' stroke='%23222' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E") 2 1, default;
+}
+
+body.style-modern button,
+body.style-modern a,
+body.style-modern [onclick],
+body.style-modern .session-item,
+body.style-modern .quick-action-btn,
+body.style-modern .footer-btn,
+body.style-modern .icon-btn,
+body.style-modern .send-btn,
+body.style-modern .new-chat-btn,
+body.style-modern .mic-btn,
+body.style-modern .color-swatch,
+body.style-modern .theme-card,
+body.style-modern .mode-card,
+body.style-modern .settings-nav-item,
+body.style-modern .minimized-icon {
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Ccircle cx='14' cy='14' r='11' fill='none' stroke='%2300f5ff' stroke-width='2'/%3E%3Ccircle cx='14' cy='14' r='4' fill='%2300f5ff' opacity='0.8'/%3E%3C/svg%3E") 14 14, pointer;
+}
+
+body.style-modern input,
+body.style-modern textarea {
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='22' viewBox='0 0 12 22'%3E%3Crect x='1' y='1' width='10' height='3' rx='1' fill='%2300f5ff'/%3E%3Crect x='5' y='3' width='2' height='16' fill='%2300f5ff'/%3E%3Crect x='1' y='18' width='10' height='3' rx='1' fill='%2300f5ff'/%3E%3C/svg%3E") 6 11, text;
+}
+
+/* ============================================
+   CURSOR TRAIL
+   ============================================ */
+.cursor-trail-dot {
+    display: none;
+    position: fixed;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 99999;
+    transform: translate(-50%, -50%);
+    mix-blend-mode: screen;
+}
+
+body.style-modern .cursor-trail-dot {
+    display: block;
+}
+
+/* ============================================
+   CLICK RIPPLE
+   ============================================ */
+.click-ripple {
+    display: none;
+    position: fixed;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 99998;
+    transform: translate(-50%, -50%) scale(0);
+    animation: ripple-expand 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+body.style-modern .click-ripple {
+    display: block;
+}
+
+@keyframes ripple-expand {
+    0% {
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 1;
+        width: 6px;
+        height: 6px;
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0;
+        width: 110px;
+        height: 110px;
+    }
+}
+
+/* ============================================
+   SHARED ANIMATIONS
+   ============================================ */
+@keyframes mw-shimmer {
+    0% {
+        background-position: 0% center;
+    }
+
+    100% {
+        background-position: 300% center;
+    }
+}
+
+/* ============================================
+   MULTICOLOR TEXT — futuristic, powerful
+   Applied ONLY to specific key elements.
+   Single font (Orbitron/Exo2), colour accent
+   on select words only — NOT every character.
+   Gradient animation within special words.
+   ============================================ */
+
+/* A "power word" — one strong accent colour, Orbitron bold */
+.mw-power {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 900;
+    letter-spacing: 0.06em;
+    display: inline-block;
+}
+
+.mw-power-cyan {
+    color: #00f5ff;
+    text-shadow: 0 0 12px rgba(0, 245, 255, 0.5);
+}
+
+.mw-power-violet {
+    color: #a76bff;
+    text-shadow: 0 0 12px rgba(167, 107, 255, 0.5);
+}
+
+.mw-power-gold {
+    color: #ffd700;
+    text-shadow: 0 0 12px rgba(255, 215, 0, 0.5);
+}
+
+/* A "gradient word" — animated gradient sweep within the word */
+.mw-flow {
+    font-family: 'Exo 2', sans-serif;
+    font-weight: 800;
+    display: inline-block;
+    background: linear-gradient(90deg, #00f5ff 0%, #a76bff 50%, #ff6be8 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: mw-shimmer 2.5s linear infinite;
+    letter-spacing: 0.04em;
+}
+
+/* Normal text in modern — clean Exo 2, not rainbow */
+body.style-modern .welcome-content p,
+body.style-modern .input-hint,
+body.style-modern .mode-card-desc,
+body.style-modern .settings-hint,
+body.style-modern .model-subtitle,
+body.style-modern .profile-email,
+body.style-modern .tool-card-desc,
+body.style-modern .status-text {
+    font-family: 'Exo 2', sans-serif !important;
+    font-weight: 400 !important;
+    color: rgba(180, 200, 230, 0.85) !important;
+    letter-spacing: 0.03em !important;
+}
+
+/* ============================================
+   BRAND / HEADINGS — futuristic, not rainbow
+   Brand "Anya": Orbitron, animated 2-stop gradient
+   (cyan → violet only — powerful, not childish)
+   ============================================ */
+body.style-modern .brand-text {
+    font-family: 'Orbitron', sans-serif !important;
+    font-weight: 900 !important;
+    font-size: 1.15rem !important;
+    letter-spacing: 5px !important;
+    text-transform: uppercase !important;
+    background: linear-gradient(90deg, #00f5ff 0%, #a76bff 55%, #00f5ff 100%) !important;
+    background-size: 200% auto !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    animation: mw-shimmer 3s linear infinite !important;
+    filter: drop-shadow(0 0 10px rgba(0, 245, 255, 0.55)) !important;
+}
+
+body.style-modern .header-info h1 {
+    font-family: 'Orbitron', sans-serif !important;
+    font-weight: 700 !important;
+    font-size: 0.95rem !important;
+    letter-spacing: 4px !important;
+    text-transform: uppercase !important;
+    background: linear-gradient(90deg, #a76bff 0%, #00f5ff 100%) !important;
+    background-size: 200% auto !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    animation: mw-shimmer 4s linear infinite !important;
+}
+
+/* Welcome h2: "Hello, I'm" in Exo2 normal, "Anya" in Orbitron gold glow */
+body.style-modern .welcome-content h2 {
+    font-family: 'Exo 2', sans-serif !important;
+    font-weight: 600 !important;
+    font-size: 2rem !important;
+    color: rgba(210, 225, 255, 0.95) !important;
+    letter-spacing: 1px !important;
+}
+
+/* The .gradient-text span inside h2 (the word "Anya") */
+body.style-modern .gradient-text {
+    font-family: 'Orbitron', sans-serif !important;
+    font-weight: 900 !important;
+    font-size: 1.15em !important;
+    background: linear-gradient(90deg, #ffd700 0%, #ff6be8 40%, #a76bff 70%, #00f5ff 100%) !important;
+    background-size: 300% auto !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    animation: mw-shimmer 2s linear infinite !important;
+    letter-spacing: 6px !important;
+    text-shadow: none !important;
+    filter: drop-shadow(0 0 14px rgba(167, 107, 255, 0.6)) !important;
+}
+
+body.style-modern .right-header-title {
+    font-family: 'Syncopate', sans-serif !important;
+    font-size: 0.7rem !important;
+    letter-spacing: 4px !important;
+    text-transform: uppercase !important;
+    color: rgba(0, 245, 255, 0.75) !important;
+}
+
+body.style-modern .settings-panel-title {
+    font-family: 'Orbitron', sans-serif !important;
+    font-weight: 700 !important;
+    font-size: 1.1rem !important;
+    letter-spacing: 3px !important;
+    text-transform: uppercase !important;
+    color: #00f5ff !important;
+    text-shadow: 0 0 16px rgba(0, 245, 255, 0.45) !important;
+    -webkit-text-fill-color: unset !important;
+}
+
+body.style-modern .settings-nav-title {
+    font-family: 'Syncopate', sans-serif !important;
+    letter-spacing: 2px !important;
+    color: rgba(167, 107, 255, 0.7) !important;
+    -webkit-text-fill-color: unset !important;
+}
+
+/* Settings nav items */
+body.style-modern .settings-nav-item {
+    font-family: 'Exo 2', sans-serif !important;
+    font-weight: 500 !important;
+    letter-spacing: 1px !important;
+}
+
+/* ============================================
+   FULL-WIDTH SCAN LINE (drawn on canvas now,
+   but CSS fallback kept)
+   ============================================ */
+body.style-modern .app-container::after {
+    content: '' !important;
+    position: fixed !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 1.5px !important;
+    background: linear-gradient(90deg,
+            transparent 0%,
+            rgba(0, 245, 255, 0.9) 25%,
+            rgba(167, 107, 255, 1) 50%,
+            rgba(0, 245, 255, 0.9) 75%,
+            transparent 100%) !important;
+    animation: scan-full 6s linear infinite !important;
+    pointer-events: none !important;
+    z-index: 9990 !important;
+    box-shadow: 0 0 12px rgba(0, 245, 255, 0.55), 0 0 28px rgba(167, 107, 255, 0.35) !important;
+}
+
+@keyframes scan-full {
+    0% {
+        top: -2px;
+        opacity: 0;
+    }
+
+    4% {
+        opacity: 1;
+    }
+
+    96% {
+        opacity: 1;
+    }
+
+    100% {
+        top: 100vh;
+        opacity: 0;
+    }
+}
+
+/* ============================================
+   GLOW — STATUS, AVATAR
+   ============================================ */
+body.style-modern .status-dot {
+    background: #00f5ff !important;
+    box-shadow: 0 0 6px #00f5ff, 0 0 16px #00f5ff, 0 0 30px rgba(0, 245, 255, 0.5) !important;
+    animation: dot-pulse 1.8s ease-in-out infinite !important;
+}
+
+@keyframes dot-pulse {
+
+    0%,
+    100% {
+        box-shadow: 0 0 6px #00f5ff, 0 0 16px #00f5ff, 0 0 30px rgba(0, 245, 255, 0.5);
+    }
+
+    50% {
+        box-shadow: 0 0 10px #00f5ff, 0 0 26px #00f5ff, 0 0 55px rgba(0, 245, 255, 0.75);
+    }
+}
+
+body.style-modern .header-avatar,
+body.style-modern .typing-avatar {
+    box-shadow: 0 0 12px rgba(99, 130, 255, 0.6), 0 0 28px rgba(167, 107, 255, 0.3) !important;
+    animation: avatar-glow 4s ease-in-out infinite !important;
+}
+
+@keyframes avatar-glow {
+
+    0%,
+    100% {
+        box-shadow: 0 0 12px #6382ff, 0 0 28px rgba(99, 130, 255, 0.3);
+    }
+
+    50% {
+        box-shadow: 0 0 20px #a76bff, 0 0 45px rgba(167, 107, 255, 0.5);
+    }
+}
+
+/* ============================================
+   BUTTONS — glow + reverse gradient on hover
+   ============================================ */
+body.style-modern .new-chat-btn {
+    background: linear-gradient(135deg, #6382ff 0%, #a76bff 100%) !important;
+    box-shadow: 0 0 14px rgba(99, 130, 255, 0.45), 0 4px 15px rgba(0, 0, 0, 0.3) !important;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+    position: relative !important;
+    overflow: hidden !important;
+    font-family: 'Orbitron', sans-serif !important;
+    letter-spacing: 2px !important;
+    text-transform: uppercase !important;
+    font-size: 0.72rem !important;
+    font-weight: 700 !important;
+}
+
+body.style-modern .new-chat-btn::before {
+    content: '' !important;
+    position: absolute !important;
+    inset: 0 !important;
+    background: linear-gradient(315deg, #00f5ff 0%, #a76bff 50%, #ffd700 100%) !important;
+    opacity: 0 !important;
+    transition: opacity 0.4s ease !important;
+    z-index: 0 !important;
+}
+
+body.style-modern .new-chat-btn:hover::before {
+    opacity: 1 !important;
+}
+
+body.style-modern .new-chat-btn:hover {
+    transform: translateY(-4px) scale(1.05) !important;
+    box-shadow: 0 0 28px rgba(0, 245, 255, 0.65), 0 12px 30px rgba(0, 0, 0, 0.4) !important;
+}
+
+body.style-modern .new-chat-btn>* {
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+body.style-modern .send-btn {
+    background: linear-gradient(135deg, #6382ff, #a76bff) !important;
+    box-shadow: 0 0 12px rgba(99, 130, 255, 0.55) !important;
+    transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+body.style-modern .send-btn::before {
+    content: '' !important;
+    position: absolute !important;
+    inset: 0 !important;
+    background: linear-gradient(315deg, #ffd700, #00f5ff) !important;
+    opacity: 0 !important;
+    transition: opacity 0.35s ease !important;
+    border-radius: inherit !important;
+}
+
+body.style-modern .send-btn:hover::before {
+    opacity: 1 !important;
+}
+
+body.style-modern .send-btn:hover {
+    transform: scale(1.18) rotate(10deg) !important;
+    box-shadow: 0 0 24px rgba(0, 245, 255, 0.85), 0 0 50px rgba(255, 215, 0, 0.3) !important;
+}
+
+body.style-modern .send-btn>* {
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+body.style-modern .quick-action-btn {
+    background: rgba(6, 10, 30, 0.85) !important;
+    border: 1px solid rgba(99, 130, 255, 0.3) !important;
+    transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+    position: relative !important;
+    overflow: hidden !important;
+    font-family: 'Exo 2', sans-serif !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.5px !important;
+}
+
+body.style-modern .quick-action-btn::after {
+    content: '' !important;
+    position: absolute !important;
+    inset: 0 !important;
+    background: linear-gradient(315deg, rgba(0, 245, 255, 0.14), rgba(167, 107, 255, 0.1)) !important;
+    opacity: 0 !important;
+    transition: opacity 0.3s ease !important;
+}
+
+body.style-modern .quick-action-btn:hover::after {
+    opacity: 1 !important;
+}
+
+body.style-modern .quick-action-btn:hover {
+    transform: translateY(-5px) scale(1.07) !important;
+    border-color: rgba(0, 245, 255, 0.6) !important;
+    box-shadow: 0 0 16px rgba(0, 245, 255, 0.3), 0 8px 22px rgba(0, 0, 0, 0.35) !important;
+}
+
+body.style-modern .quick-action-btn>* {
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+body.style-modern .quick-action-btn:hover .material-icons-round {
+    color: #00f5ff !important;
+    text-shadow: 0 0 10px rgba(0, 245, 255, 0.9) !important;
+    display: inline-block !important;
+    transform: scale(1.2) !important;
+    transition: all 0.3s ease !important;
+}
+
+body.style-modern .settings-btn-primary {
+    background: linear-gradient(135deg, #6382ff, #a76bff) !important;
+    font-family: 'Exo 2', sans-serif !important;
+    font-weight: 600 !important;
+    box-shadow: 0 0 12px rgba(99, 130, 255, 0.4) !important;
+    transition: all 0.3s ease !important;
+}
+
+body.style-modern .settings-btn-primary:hover {
+    background: linear-gradient(315deg, #00f5ff, #a76bff) !important;
+    box-shadow: 0 0 22px rgba(0, 245, 255, 0.7) !important;
+    transform: translateY(-2px) scale(1.04) !important;
+}
+
+body.style-modern .footer-btn:hover {
+    background: rgba(99, 130, 255, 0.1) !important;
+    color: #00f5ff !important;
+    box-shadow: 0 0 10px rgba(0, 245, 255, 0.22) !important;
+    transform: translateX(4px) !important;
+}
+
+body.style-modern .icon-btn:hover {
+    background: rgba(99, 130, 255, 0.14) !important;
+    color: #00f5ff !important;
+    box-shadow: 0 0 12px rgba(0, 245, 255, 0.3) !important;
+    transform: scale(1.1) !important;
+}
+
+/* ============================================
+   CHAT INPUT
+   ============================================ */
+body.style-modern .chat-input {
+    border-color: rgba(99, 130, 255, 0.22) !important;
+    background: rgba(4, 8, 24, 0.9) !important;
+}
+
+body.style-modern .chat-input:focus-within {
+    border-color: rgba(0, 245, 255, 0.5) !important;
+    box-shadow: 0 0 0 2px rgba(0, 245, 255, 0.1), 0 0 22px rgba(0, 245, 255, 0.15) !important;
+}
+
+/* ============================================
+   MESSAGES
+   ============================================ */
+body.style-modern .ai {
+    border-color: rgba(99, 130, 255, 0.18) !important;
+    box-shadow: 0 0 16px rgba(99, 130, 255, 0.06) !important;
+}
+
+body.style-modern .user {
+    box-shadow: 0 0 16px rgba(99, 130, 255, 0.3), 0 4px 20px rgba(167, 107, 255, 0.22) !important;
+}
+
+/* ============================================
+   WELCOME ICON — star ✦  (FUTURISTIC)
+   ============================================ */
+body.style-modern .welcome-icon {
+    font-size: 80px !important;
+    background: linear-gradient(135deg, #00f5ff 0%, #a76bff 40%, #ffd700 70%, #ff6be8 100%) !important;
+    background-size: 400% auto !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    animation: mw-shimmer 2s linear infinite, float-icon 3.5s ease-in-out infinite !important;
+    filter: drop-shadow(0 0 28px rgba(0, 245, 255, 0.85)) drop-shadow(0 0 60px rgba(167, 107, 255, 0.55)) !important;
+    cursor: pointer !important;
+    display: inline-block !important;
+    transition: filter 0.3s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+    position: relative !important;
+}
+
+body.style-modern .welcome-icon:hover {
+    filter: drop-shadow(0 0 45px rgba(0, 245, 255, 1)) drop-shadow(0 0 90px rgba(255, 215, 0, 0.75)) brightness(1.6) !important;
+    transform: scale(1.28) translateY(-12px) !important;
+    animation: mw-shimmer 0.8s linear infinite, float-icon-hover 0.9s ease-in-out infinite !important;
+}
+
+body.style-modern .welcome-icon:active {
+    transform: scale(0.85) !important;
+    filter: drop-shadow(0 0 80px rgba(0, 245, 255, 1)) drop-shadow(0 0 120px rgba(255, 215, 0, 1)) brightness(2.5) !important;
+}
+
+@keyframes float-icon {
+    0%,
+    100% {
+        transform: translateY(0) scale(1);
+        filter: drop-shadow(0 0 28px rgba(0, 245, 255, 0.85)) drop-shadow(0 0 60px rgba(167, 107, 255, 0.55));
+    }
+    50% {
+        transform: translateY(-14px) scale(1.1);
+        filter: drop-shadow(0 0 42px rgba(0, 245, 255, 1)) drop-shadow(0 0 80px rgba(167, 107, 255, 0.8));
+    }
+}
+
+@keyframes float-icon-hover {
+    0%, 100% { transform: scale(1.28) translateY(-9px); }
+    50% { transform: scale(1.32) translateY(-16px); }
+}
+
+/* Futuristic pulsing ring behind the icon */
+body.style-modern .welcome-icon::before {
+    display: none !important;
+}
+
+/* Streaming in-progress: pulsing cursor at end of text */
+.ai.streaming .content::after {
+    content: '▋';
+    animation: blink-cursor 0.7s step-end infinite;
+    color: var(--accent-primary);
+    margin-left: 2px;
+    font-size: 0.9em;
+}
+
+@keyframes blink-cursor {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* ============================================
+   TOOL WINDOWS
+   ============================================ */
+body.style-modern .tool-window {
+    border-color: rgba(99, 130, 255, 0.18) !important;
+    box-shadow: 0 0 18px rgba(99, 130, 255, 0.06) !important;
+    transition: all 0.3s ease !important;
+}
+
+body.style-modern .tool-window:hover {
+    border-color: rgba(0, 245, 255, 0.32) !important;
+    box-shadow: 0 0 24px rgba(0, 245, 255, 0.12), 0 8px 30px rgba(0, 0, 0, 0.35) !important;
+    transform: translateY(-3px) !important;
+}
+
+/* ============================================
+   TYPING DOTS
+   ============================================ */
+body.style-modern .typing-dots span {
+    background: #6382ff !important;
+    box-shadow: 0 0 8px rgba(99, 130, 255, 0.8) !important;
+    animation: typingBounce 1.4s infinite ease-in-out, dot-hue 4s linear infinite !important;
+}
+
+@keyframes dot-hue {
+    0% {
+        background: #6382ff;
+    }
+
+    33% {
+        background: #a76bff;
+    }
+
+    66% {
+        background: #00f5ff;
+    }
+
+    100% {
+        background: #6382ff;
+    }
+}
+
+/* ============================================
+   SESSION ITEMS
+   ============================================ */
+body.style-modern .session-item:hover {
+    background: rgba(99, 130, 255, 0.07) !important;
+    border-color: rgba(99, 130, 255, 0.2) !important;
+}
+
+body.style-modern .session-item.active {
+    box-shadow: inset 3px 0 0 #00f5ff, 0 0 12px rgba(0, 245, 255, 0.08) !important;
+    border-color: rgba(0, 245, 255, 0.25) !important;
+}
+
+/* ============================================
+   TOASTS
+   ============================================ */
+body.style-modern .toast.toast-success {
+    border-color: rgba(0, 245, 255, 0.4) !important;
+    box-shadow: 0 0 20px rgba(0, 245, 255, 0.15) !important;
+}
+
+body.style-modern .toast.toast-info {
+    border-color: rgba(99, 130, 255, 0.5) !important;
+    box-shadow: 0 0 20px rgba(99, 130, 255, 0.15) !important;
+}
+
+/* ============================================
+   DAY/NIGHT TOGGLE — ALL THEMES IMPROVED
+   ============================================ */
+.toggle-track {
+    width: 54px !important;
+    height: 28px !important;
+    border-radius: 14px !important;
+    background: linear-gradient(135deg, #0a1028, #141e38) !important;
+    border: 1px solid rgba(99, 130, 255, 0.35) !important;
+    position: relative !important;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    overflow: visible !important;
+}
+
+/* Stars in dark mode track */
+.toggle-track::before {
+    content: '· ✦ ·' !important;
+    position: absolute !important;
+    right: 4px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 7px !important;
+    color: rgba(180, 200, 255, 0.55) !important;
+    letter-spacing: 1px !important;
+    transition: opacity 0.3s !important;
+    opacity: 1 !important;
+    pointer-events: none !important;
+}
+
+body.light-mode .toggle-track::before {
+    opacity: 0 !important;
+}
+
+/* Clouds in light mode track */
+.toggle-track::after {
+    content: '☁ ☁' !important;
+    position: absolute !important;
+    left: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 8px !important;
+    color: rgba(255, 255, 255, 0.8) !important;
+    letter-spacing: 2px !important;
+    transition: opacity 0.3s !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+body.light-mode .toggle-track::after {
+    opacity: 1 !important;
+}
+
+body.light-mode .toggle-track {
+    background: linear-gradient(135deg, #6db8e8, #f5c842) !important;
+    border-color: rgba(255, 200, 50, 0.5) !important;
+}
+
+/* Thumb: crescent moon in dark */
+.toggle-thumb {
+    width: 22px !important;
+    height: 22px !important;
+    border-radius: 50% !important;
+    position: absolute !important;
+    top: 3px !important;
+    left: 3px !important;
+    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
+        background 0.4s, box-shadow 0.4s !important;
+    background: linear-gradient(135deg, #c8d5ff, #e2e9ff) !important;
+    box-shadow: inset -5px -2px 0 0 rgba(70, 90, 200, 0.55) !important;
+    z-index: 2 !important;
+}
+
+/* Sun in light mode */
+body.light-mode .toggle-thumb {
+    transform: translateX(26px) !important;
+    background: radial-gradient(circle at 40% 40%, #ffe066, #ff9d00) !important;
+    box-shadow: 0 0 0 2px rgba(255, 210, 0, 0.35),
+        0 0 16px rgba(255, 185, 0, 0.75),
+        0 0 36px rgba(255, 140, 0, 0.35) !important;
+}
+
+/* Sun pulse rays */
+body.light-mode .toggle-thumb::before {
+    content: '' !important;
+    position: absolute !important;
+    inset: -8px !important;
+    border-radius: 50% !important;
+    background: radial-gradient(circle, rgba(255, 210, 0, 0.4) 0%, transparent 70%) !important;
+    animation: sun-pulse 2s ease-in-out infinite !important;
+}
+
+@keyframes sun-pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 0.55;
+    }
+
+    50% {
+        transform: scale(1.38);
+        opacity: 1;
+    }
+}
+
+.theme-icon {
+    font-size: 20px !important;
+    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+    color: rgba(190, 210, 255, 0.85) !important;
+}
+
+body.light-mode .theme-icon {
+    color: #ffb800 !important;
+    transform: rotate(360deg) scale(1.25) !important;
+    filter: drop-shadow(0 0 8px rgba(255, 185, 0, 0.75)) !important;
+}
+
+/* Modern: extra drama on toggle */
+body.style-modern .toggle-track {
+    box-shadow: 0 0 14px rgba(99, 130, 255, 0.32), inset 0 0 8px rgba(0, 0, 0, 0.3) !important;
+}
+
+body.style-modern.light-mode .toggle-track {
+    box-shadow: 0 0 22px rgba(255, 200, 0, 0.5) !important;
+}
+
+body.style-modern .theme-icon {
+    animation: moon-glow 3s ease-in-out infinite !important;
+}
+
+@keyframes moon-glow {
+
+    0%,
+    100% {
+        filter: drop-shadow(0 0 4px rgba(180, 210, 255, 0.45));
+    }
+
+    50% {
+        filter: drop-shadow(0 0 14px rgba(99, 130, 255, 0.9));
+    }
+}
+
+body.style-modern.light-mode .theme-icon {
+    animation: sun-glow-icon 2s ease-in-out infinite !important;
+}
+
+@keyframes sun-glow-icon {
+
+    0%,
+    100% {
+        filter: drop-shadow(0 0 8px rgba(255, 200, 0, 0.6));
+    }
+
+    50% {
+        filter: drop-shadow(0 0 22px rgba(255, 140, 0, 1));
+    }
+}
+
+/* ============================================
+   MULTICOLOUR ACCENT — distinct colour pops
+   NOT a rainbow stripe — radial blobs of 6
+   distinct solid colours on dark base
+   ============================================ */
+.swatch-multicolour {
+    background:
+        radial-gradient(circle at 15% 50%, #ff0040 0%, transparent 44%),
+        radial-gradient(circle at 38% 18%, #ff8c00 0%, transparent 40%),
+        radial-gradient(circle at 60% 80%, #ffd700 0%, transparent 40%),
+        radial-gradient(circle at 72% 28%, #00e676 0%, transparent 40%),
+        radial-gradient(circle at 88% 62%, #00b0ff 0%, transparent 40%),
+        radial-gradient(circle at 48% 48%, #d500f9 0%, transparent 50%),
+        #080818 !important;
+}
+
+body.accent-multicolour {
+    --accent-primary: #a76bff;
+    --gradient-accent: linear-gradient(135deg, #6382ff 0%, #a76bff 55%, #00f5ff 100%);
+    --gradient-user: linear-gradient(135deg, #3a50cc 0%, #7b50cc 55%, #0088cc 100%);
+    --shadow-glow: 0 0 22px rgba(167, 107, 255, 0.3);
+    --border-accent: rgba(167, 107, 255, 0.35);
+}
+
+/* Multicolour accent keeps UI gradients as 2-stop blue-violet (powerful).
+   The "multicolour" name refers to the swatch visual only — not rainbow UI. */
+
+/* ============================================
+   ANCIENT / TERMINAL — CRT SCANLINES + FLICKER
+   ============================================ */
+body.style-ancient .app-container::after {
+    content: '' !important;
+    position: fixed !important;
+    inset: 0 !important;
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.12) 0px,
+        rgba(0, 0, 0, 0.12) 1px,
+        transparent 1px,
+        transparent 3px
+    ) !important;
+    pointer-events: none !important;
+    z-index: 9999 !important;
+    animation: crt-flicker 0.12s infinite !important;
+}
+
+@keyframes crt-flicker {
+    0%   { opacity: 0.97; }
+    50%  { opacity: 1;    }
+    100% { opacity: 0.98; }
+}
+
+/* Terminal phosphor glow on text */
+body.style-ancient .content,
+body.style-ancient .ai .content {
+    text-shadow: 0 0 5px rgba(51, 255, 51, 0.6) !important;
+}
+
+/* Terminal blinking cursor for welcome icon */
+body.style-ancient .welcome-icon {
+    animation: terminal-blink 1.1s step-end infinite !important;
+    text-shadow: 0 0 18px #33ff33 !important;
+}
+
+@keyframes terminal-blink {
+    0%, 49%  { opacity: 1; }
+    50%, 100% { opacity: 0.15; }
+}
+
+/* Terminal-style chat input border */
+body.style-ancient .chat-input:focus-within {
+    border-color: #33ff33 !important;
+    box-shadow: 0 0 0 1px #33ff33, 0 0 12px rgba(51, 255, 51, 0.3) !important;
+}
+
+/* ============================================
+   MINIMALIST — Hard cursor reset + no animations
+   ============================================ */
+body.style-minimalist *,
+body.style-minimalist button,
+body.style-minimalist a,
+body.style-minimalist [onclick],
+body.style-minimalist .session-item,
+body.style-minimalist .quick-action-btn,
+body.style-minimalist .footer-btn,
+body.style-minimalist .icon-btn,
+body.style-minimalist .send-btn,
+body.style-minimalist .new-chat-btn,
+body.style-minimalist .mic-btn {
+    cursor: auto !important;
+}
+
+body.style-minimalist button,
+body.style-minimalist a,
+body.style-minimalist [onclick],
+body.style-minimalist .session-item,
+body.style-minimalist .quick-action-btn,
+body.style-minimalist .footer-btn,
+body.style-minimalist .icon-btn,
+body.style-minimalist .send-btn,
+body.style-minimalist .new-chat-btn,
+body.style-minimalist .mic-btn {
+    cursor: pointer !important;
+}
+
+/* Default theme: hard reset to ensure native cursor */
+body:not(.style-modern):not(.style-ancient) * {
+    cursor: revert !important;
+}
+
+body:not(.style-modern):not(.style-ancient) button,
+body:not(.style-modern):not(.style-ancient) a,
+body:not(.style-modern):not(.style-ancient) [onclick],
+body:not(.style-modern):not(.style-ancient) .session-item,
+body:not(.style-modern):not(.style-ancient) .quick-action-btn,
+body:not(.style-modern):not(.style-ancient) .new-chat-btn,
+body:not(.style-modern):not(.style-ancient) .footer-btn,
+body:not(.style-modern):not(.style-ancient) .icon-btn {
+    cursor: pointer !important;
+}
+
+body:not(.style-modern):not(.style-ancient) input,
+body:not(.style-modern):not(.style-ancient) textarea {
+    cursor: text !important;
+}
+
+/* ============================================
+   STREAMING INDICATOR (all themes)
+   ============================================ */
+.ai.streaming .content::after {
+    content: '▋';
+    animation: blink-cursor 0.7s step-end infinite;
+    color: var(--accent-primary);
+    margin-left: 2px;
+    font-size: 0.9em;
+    opacity: 0.9;
+}
